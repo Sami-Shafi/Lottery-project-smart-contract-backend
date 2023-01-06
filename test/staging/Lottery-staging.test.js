@@ -36,15 +36,13 @@ const { devChains, networkConfig } = require("../../helper-hardhat.config");
 								assert.equal(lotteryState, 0);
 
 								// same code as unit testing
-								const totalReward = entranceFee
-									.mul(additionalEntries)
-									.add(entranceFee);
 								assert.equal(
 									winnerEndingBalance.toString(),
 									winnerStartingBalance
-										.add(totalReward)
+										.add(entranceFee)
 										.toString()
 								);
+								assert(endingTimestamp > startingTimestamp);
 								resolve();
 							} catch (err) {
 								console.log(err);
