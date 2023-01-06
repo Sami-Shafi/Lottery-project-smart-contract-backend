@@ -218,18 +218,26 @@ const { devChains, networkConfig } = require("../../helper-hardhat.config");
 								console.log("Found the Event!");
 								try {
 									const recentWinner = await lottery.getRecentWinner();
+									const winnerEndingBalance = await accounts[1].getBalance();
 									const lotteryState = await lottery.getLotteryState();
 									const timestamp = await lottery.getLatestTimestamp();
 									const numPlayers = await lottery.getNumOfPlayers();
-									console.log(recentWinner);
-									console.log(accounts[0].address);
-									console.log(accounts[1].address);
-									console.log(accounts[2].address);
-									console.log(accounts[3].address);
 
 									assert.equal(numPlayers.toString(), "0");
 									assert.equal(lotteryState.toString(), "0");
 									assert(timestamp > startingTimestamp);
+
+									// balance testing !Lots of Maths!
+									// * end balance = (fee * all other particiapants) + winners Fee
+									const totalReward = entranceFee
+										.mul(additionalEntries)
+										.add(entranceFee);
+									assert.equal(
+										winnerEndingBalance.toString(),
+										winnerStartingBalance
+											.add(totalReward)
+											.toString()
+									);
 								} catch (err) {
 									reject(err);
 								}
@@ -238,6 +246,7 @@ const { devChains, networkConfig } = require("../../helper-hardhat.config");
 
 							const tx = await lottery.performUpkeep([]);
 							const txReceipt = await tx.wait(1);
+							const winnerStartingBalance = await accounts[1].getBalance();
 							await vrfCoordinatorV2Mock.fulfillRandomWords(
 								txReceipt.events[1].args.requestId,
 								lottery.address
