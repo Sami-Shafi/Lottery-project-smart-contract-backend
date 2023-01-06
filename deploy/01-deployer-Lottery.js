@@ -24,7 +24,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 		await vrfCoordinatorV2Mock.fundSubscription(subId, VRF_SUB_FUND_AMOUNT);
 	} else {
 		vrfCoordinatorV2Address = networkConfig[chainId]["vrfCoordinatorV2"];
-		subId = networkConfig[chainId]["subscriptionId"];
+		subId = networkConfig[chainId]["subId"];
 	}
 
 	// get all the constructor values from helper config

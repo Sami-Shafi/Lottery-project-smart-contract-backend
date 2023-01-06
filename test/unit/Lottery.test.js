@@ -192,7 +192,7 @@ const { devChains, networkConfig } = require("../../helper-hardhat.config");
 						).to.be.revertedWith("nonexistent request");
 					});
 
-					it.only("Picks a winner, resets lottery, and sends money", async () => {
+					it("Picks a winner, resets lottery, and sends money", async () => {
 						// add some fake players to test. the deployer index is 0
 						// so starting account index is 1
 						const additionalEntries = 3;

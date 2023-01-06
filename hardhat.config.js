@@ -9,6 +9,7 @@ const {
 	ALCHEMY_MAINNET_RPC_URL,
 	REPORT_GAS,
 	COINMARKETCAP_API_KEY,
+	ETHERSCAN_API_KEY,
 } = process.env;
 
 /** @type import('hardhat/config').HardhatUserConfig */
@@ -49,6 +50,12 @@ module.exports = {
 		outputFile: "gas-report.txt",
 		noColors: true,
 		coinmarketcap: COINMARKETCAP_API_KEY,
+	},
+	etherscan: {
+		// yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
+		apiKey: {
+			goerli: ETHERSCAN_API_KEY,
+		},
 	},
 	namedAccounts: {
 		deployer: {
